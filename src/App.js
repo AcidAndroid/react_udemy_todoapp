@@ -8,16 +8,18 @@ class App extends Component {
     ,id:0
     ,input:''
   }
-  addTodo = (todoName)=>{
-
+  addTodo = (todoName)=>{    
+    console.log(todoName)
     this.setState(prevState =>{
-      const newTodos = prevState.todos.slice().concat({
+      const newTodos = prevState.todos.slice()
+      .concat({
         name:todoName
         ,id:prevState.id
-      })
+              })
       return{
         todos:newTodos
         ,id:prevState.id+1
+        ,input:''
       }
     })
 
@@ -38,8 +40,9 @@ class App extends Component {
 
 
   saveTextTodo =(e)=>{
+    
     const text = e.target.value
-    console.log(text)
+    // console.log(text)
 
     this.setState({
       input:text
@@ -52,10 +55,10 @@ class App extends Component {
       <div className="App">
         
         <input type="text" value={this.state.input} onChange={this.saveTextTodo} ></input>
-        <button onClick={this.addTodo} >Add Todo</button>
+        <button onClick={()=>{this.addTodo(this.state.input)}} >Add Todo</button>
         <ul>
-          {this.state.todos.map((item) => {            
-            return (<li key={item.id} ></li>)
+          {this.state.todos.map((todo) => {            
+            return <li key={todo.id}>{todo.name} <button onClick={()=>{this.deleteTodo(todo.id)}} >Delete Todo</button> </li>
           })}
         </ul>
 
