@@ -5,10 +5,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import { Icon, Avatar } from '@material-ui/core';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 export default class TodoList extends Component {
+
+
+
   render() {
     return (
+      <DragDropContext onDragEnd={ ()=>{this.props.handleDragEnd}}>
+      
         <List>
 
         {this.props.data.map((todo) =>             
@@ -29,6 +35,8 @@ export default class TodoList extends Component {
               </ListItem>
           )}                
         </List>
+
+        </DragDropContext>
     )
   }
 }

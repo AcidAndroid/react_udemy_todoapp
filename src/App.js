@@ -46,6 +46,12 @@ class App extends Component {
   }
 
 
+  onDragEnd(result) {
+    // dropped outside the list
+    if (!result.destination) {
+      return
+    }
+  }
 
   render() {
     return (
@@ -57,7 +63,8 @@ class App extends Component {
 
             <TodoList 
             data={this.state.todos} 
-            handleClick={this.deleteTodo}          
+            handleClick={this.deleteTodo} 
+            handleDragEnd={this.onDragEnd}         
             />
 
           {/* <ul>
