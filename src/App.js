@@ -32,13 +32,15 @@ class App extends Component {
         name:todoName
         ,id:prevState.id
               })
+      localStorage.setItem('todo', JSON.stringify(newTodos))
+      localStorage.setItem('id', JSON.stringify(prevState.id+1))
+
       return{
         todos:newTodos
         ,id:prevState.id+1
         
       }
-    })
-
+    })    
   }
 
 
@@ -51,7 +53,7 @@ class App extends Component {
         todos:newTodos        
       }
     })
-
+    localStorage.setItem('todo', JSON.stringify(this.state.todos))
   }
 
 
@@ -71,8 +73,19 @@ class App extends Component {
     this.setState({
       todos:items,
     });
+
+    localStorage.setItem('todo', JSON.stringify(this.state.todos))
   }
 
+
+  componentDidMount(){
+    const todos= JSON.parse(localStorage.getItem('todo')) || []
+    const id= JSON.parse (localStorage.getItem('id'))||0
+    this.setState({
+      todos
+      ,id
+    })
+  }
 
   render() {
     return (
