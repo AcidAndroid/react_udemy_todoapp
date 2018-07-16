@@ -8,6 +8,15 @@ import { Icon, Avatar } from '@material-ui/core';
 import TodoList from './components/TodoList';
 import TodoInput from './components/TodoInput';
 
+// a little function to help us with reordering the result
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
 class App extends Component {
 
   state={
@@ -46,12 +55,24 @@ class App extends Component {
   }
 
 
-  onDragEnd(result) {
+  onDragEnd= (result) =>{
+    console.log('onDragEnd')
     // dropped outside the list
     if (!result.destination) {
-      return
+      return;
     }
+
+    const items = reorder(
+      this.state.todos,
+      result.source.index,
+      result.destination.index
+    );
+    console.log(items)
+    this.setState({
+      todos:items,
+    });
   }
+
 
   render() {
     return (

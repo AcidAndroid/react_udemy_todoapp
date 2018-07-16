@@ -13,30 +13,49 @@ export default class TodoList extends Component {
 
   render() {
     return (
-      <DragDropContext onDragEnd={ ()=>{this.props.handleDragEnd}}>
-      
-        <List>
 
-        {this.props.data.map((todo) =>             
-            // return <li key={todo.id}>{todo.name} <button onClick={()=>{this.deleteTodo(todo.id)}} >Delete Todo</button> </li>
-            <ListItem key={todo.id}>
-                <Icon>drag_handle</Icon>
-                <ListItemText
-                  primary={todo.name}                      
-                />
-                <ListItemSecondaryAction>
-                  <IconButton 
-                  aria-label="Delete"
-                  onClick={()=>{this.props.handleClick(todo.id)}}
-                  >
-                    <Icon>delete</Icon>
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-          )}                
-        </List>
+      <DragDropContext onDragEnd={this.props.handleDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}              
+            >
+            <List>
+              {this.props.data.map((todo, index) => (
+                <Draggable key={todo.id} draggableId={todo.id} index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      
+                    >
+                      <ListItem key={todo.id}>
+                        <Icon>drag_handle</Icon>
+                        <ListItemText
+                          primary={todo.name}                      
+                        />
+                        <ListItemSecondaryAction>
+                          <IconButton 
+                          aria-label="Delete"
+                          onClick={()=>{this.props.handleClick(todo.id)}}
+                          >
+                            <Icon>delete</Icon>
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+              </List>
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
 
-        </DragDropContext>
+       
     )
   }
 }
